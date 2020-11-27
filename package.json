@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "rescripts start",
-    "build": "rescripts build",
+    "build": "react-scripts build",
     "test": "rescripts test",
     "lint:fix": "standard --fix | snazzy"
   },
