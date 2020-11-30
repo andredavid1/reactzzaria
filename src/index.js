@@ -1,15 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+import Root from './root'
 import reportWebVitals from './reportWebVitals'
 
 import ErrorBoundary from './error'
 
 ReactDOM.render(
   <ErrorBoundary>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    {(hasError) => (
+      <React.StrictMode>
+        <Root hasError={hasError} />
+      </React.StrictMode>
+    )}
   </ErrorBoundary>,
   document.getElementById('root')
 )

@@ -1,21 +1,31 @@
-import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { CssBaseline } from '@material-ui/core'
+import React, { lazy, useContext, useEffect, Suspense } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import firebase from './services/firebase'
+import { LinearProgress } from '@material-ui/core'
+import { AuthContext } from './contexts/auth'
 
-import MainPage from './pages/main'
-import Login from './pages/login'
+const MainPage = lazy(() => import('./pages/main'))
+const Login = lazy(() => import('./pages/login'))
 
 const App = () => {
+  const { setUserInfo } = useContext(AuthContext)
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log('dados do usuário: ', user)
+      setUserInfo({
+        isUserLoggedIn: !!user,
+        user
+      })
+    })
+  }, [])
+
   return (
-    <>
-      <CssBaseline />
-      <BrowserRouter>
-        <Switch>
-          <Route path='/login' component={Login} />
-          <Route component={MainPage} />
-        </Switch>
-      </BrowserRouter>
-    </>
+    <Suspense fallback={<LinearProgress />}>
+      <Switch>
+        <Route path='/login' component={Login} />
+        <Route component={MainPage} />
+      </Switch>
+    </Suspense>
   )
 }
 
