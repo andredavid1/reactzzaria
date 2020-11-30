@@ -1,19 +1,32 @@
 import React from 'react'
+import { hot, setConfig } from 'react-hot-loader'
 import { BrowserRouter, Route } from 'react-router-dom'
-import { CssBaseline } from '@material-ui/core'
+import { CssBaseline, createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import AuthProvider from './contexts/auth'
 import App from './App'
 
+setConfig({
+  showReactDomPatchNotification: false
+})
+
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  }
+})
+
 const Root = () => {
   return (
-    <AuthProvider>
-      <CssBaseline />
+    <MuiThemeProvider theme={theme}>
+      <AuthProvider>
+        <CssBaseline />
 
-      <BrowserRouter>
-        <Route component={App} />
-      </BrowserRouter>
-    </AuthProvider>
+        <BrowserRouter>
+          <Route component={App} />
+        </BrowserRouter>
+      </AuthProvider>
+    </MuiThemeProvider>
   )
 }
 
-export default Root
+export default hot(module)(Root)
