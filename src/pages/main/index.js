@@ -56,18 +56,18 @@ const Main = () => {
 
       <Content>
         <Grid container direction='column' alignItems='center'>
-          <Typography variant='h3' gutterBottom>
+          <Title variant='h3'>
             O que vai ser hoje, {userName}?
-          </Typography>
+          </Title>
 
-          <Typography variant='h4'>
+          <Title variant='h4'>
             Escolha o tamanho da pizza:
-          </Typography>
+          </Title>
         </Grid>
 
-        <Grid container spacing={2}>
+        <PizzasGrid>
           {pizzaSizes.map((pizza) => (
-            <Grid item key={pizza.id} xs={4}>
+            <Grid item key={pizza.id} xs>
               <PaperPizza>
                 <Pizza>
                   <PizzaText>{pizza.size}cm</PizzaText>
@@ -76,11 +76,11 @@ const Main = () => {
                 <Divider />
 
                 <Typography variant='h5'>{pizza.name}</Typography>
-                <Typography>{pizza.slices} fatias, {pizza.flavours}</Typography>
+                <Typography>{pizza.slices} fatias, {pizza.flavours} {pizza.flavours > 1 ? 'sabores' : 'sabor'}</Typography>
               </PaperPizza>
             </Grid>
           ))}
-        </Grid>
+        </PizzasGrid>
       </Content>
     </>
   )
@@ -137,6 +137,11 @@ const Content = styled.main`
   padding: 20px;
 `
 
+const Title = styled(Typography).attrs({
+  align: 'center',
+  gutterBottom: true
+})``
+
 const style = (theme) => ({
   main: theme.mixins.toolbar
 })
@@ -150,10 +155,18 @@ const Divider = styled(MaterialDivider)`
   width: 100%;
 `
 
+const PizzasGrid = styled(Grid).attrs({
+  container: true,
+  spacing: 2
+})`
+  padding: 20px;
+`
+
 const PaperPizza = styled(Paper)`
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  min-width: 250px;
   padding: 20px 0;
 `
 
