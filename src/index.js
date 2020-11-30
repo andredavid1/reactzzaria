@@ -8,9 +8,7 @@ import ErrorBoundary from './error'
 ReactDOM.render(
   <ErrorBoundary>
     {(hasError) => (
-      <React.StrictMode>
-        <Root hasError={hasError} />
-      </React.StrictMode>
+      <Root hasError={hasError} />
     )}
   </ErrorBoundary>,
   document.getElementById('root')

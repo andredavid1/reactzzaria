@@ -1,25 +1,74 @@
-import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import styled from 'styled-components'
+import {
+  AppBar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar as MaterialToolBar,
+  Typography
+} from '@material-ui/core'
+import { AccountCircle } from '@material-ui/icons'
+import { ReactComponent as MainLogo } from '../login/logo-react-zzaria.svg'
+import { AuthContext } from '../../contexts/auth'
 
-const routes = [
-  { path: '/rota1', content: 'Rota 1' },
-  { path: '/rota2', content: 'Rota 2' }
-]
+const Main = () => {
+  const [anchorElement, setAnchorElement] = useState(null)
+  const { logout, userInfo } = useContext(AuthContext)
 
-const Main = () => (
-  <>
-    <h1>Main</h1>
+  const handleOpenMenu = (e) => {
+    setAnchorElement(e.target)
+  }
 
-    <Switch>
-      {routes.map(route => (
-        <Route
-          key={route.path}
-          path={route.path}
-          render={() => <h2>{route.content}</h2>}
-        />
-      ))}
-    </Switch>
-  </>
-)
+  const handleCloseMenu = () => {
+    setAnchorElement(null)
+  }
+
+  return (
+    <AppBar>
+      <Toolbar>
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
+
+        <Typography color='inherit'>Olá {userInfo.user.displayName.split(' ')[0]} =)</Typography>
+        <IconButton color='inherit' onClick={handleOpenMenu}>
+          <AccountCircle />
+        </IconButton>
+
+        <Menu
+          open={!!anchorElement}
+          onClose={handleCloseMenu}
+          anchorEl={anchorElement}
+        >
+          <MenuItem onClick={logout}>Sair</MenuItem>
+        </Menu>
+      </Toolbar>
+    </AppBar>
+  )
+}
+
+const Toolbar = styled(MaterialToolBar)`
+  margin: 0 auto;
+  max-width: 960px;
+  width: 100%;
+`
+
+const LogoContainer = styled.div`
+  flex-grow: 1;
+`
+
+const Logo = styled(MainLogo)`
+  width: 200px;
+  height: 50px;
+
+  & path {
+    fill: #fff;
+  }
+
+  & line {
+    stroke: #fff;
+  }
+`
 
 export default Main
